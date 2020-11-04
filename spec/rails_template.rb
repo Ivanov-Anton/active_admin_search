@@ -3,8 +3,8 @@
 # This gem is unnecessary on Unix-based systems in general
 gsub_file "Gemfile", /gem 'tzinfo-data.*/, ''
 
-generate :migration, 'create_authors name:string last_name:string'
-generate :migration, 'create_posts title:string body:text author_id:integer'
+generate :migration, 'create_authors name:string last_name:string deleted_at:date type_id:integer'
+generate :migration, 'create_posts title:string body:text author_id:integer published:boolean visible:boolean'
 
 copy_file File.expand_path('../app/models/author.rb', __dir__), 'app/models/author.rb'
 
