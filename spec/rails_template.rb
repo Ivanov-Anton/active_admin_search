@@ -3,12 +3,14 @@
 # This gem is unnecessary on Unix-based systems in general
 gsub_file "Gemfile", /gem 'tzinfo-data.*/, ''
 
-generate :migration, 'create_authors name:string last_name:string deleted_at:date type_id:integer'
+generate :migration, 'create_authors name:string last_name:string deleted_at:date type_id:integer timestamps'
 generate :migration, 'create_posts title:string body:text author_id:integer published:boolean visible:boolean'
+generate :migration, 'create_model_without_term_scopes name:string text:string body:string'
 
 copy_file File.expand_path('../app/models/author.rb', __dir__), 'app/models/author.rb'
 
 copy_file File.expand_path('../app/models/post.rb', __dir__), 'app/models/post.rb'
+copy_file File.expand_path('../app/models/model_without_term_scope.rb', __dir__), 'app/models/model_without_term_scope.rb'
 
 # Add our local Active Admin to the load path
 insert_into_file 'config/environment.rb', after: "require_relative 'application'" do <<-RUBY

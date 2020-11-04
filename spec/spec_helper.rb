@@ -4,7 +4,7 @@ require 'bundler'
 require 'active_admin_search'
 ENV['RAILS_ENV'] = 'test'
 require 'rails'
-ENV['RAILS'] = Rails.version
+ENV['RAILS'] = Rails.version # 6.0.3.4 by default
 
 ENV['RAILS_ROOT'] = File.expand_path("../rails/rails-#{ENV['RAILS']}", __FILE__)
 
