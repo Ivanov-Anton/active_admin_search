@@ -68,6 +68,37 @@ example:
 localhost:3000/posts/search?term=text&skip_default_scopes=true
 ```
 
+## Search with prefix id:
+
+You can perform search record by id even though your
+scope is searching on a different field.
+
+###### Default behavior
+```
+localhost:3000/authors/search?term=string
+```
+then
+```sql
+SELECT "authors".* FROM "authors" WHERE "authors"."name" LIKE '%string%'
+```
+###### Search using prefix id:
+```
+localhost:3000/authors/search?term=id:443
+```
+then
+```sql
+SELECT "authors".* FROM "authors" WHERE "authors"."id" = 443
+```
+###### ☝️ To use this prefix you should define sub_id: :term in your AA page
+
+##### Highlight search responce
+You can highlight you responce to easy perform search
+
+example below to enable this feature
+```ruby
+active_admin_search! highlight: :term
+```
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.

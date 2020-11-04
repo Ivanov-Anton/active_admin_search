@@ -48,7 +48,11 @@ module ActiveAdminSearch
 
     # clean search params
     search_params = params.fetch(:q) { params.except(:controller, :action, json_term_key) }.dup
-    search_params.delete_if { |_, v| [*v].all? { |i| i.blank? && i != false } } # like ransack does
+    search_params.delete_if do |_, v| # like ransack does
+      [*v].all? do |i|
+        i.blank? && i != false
+      end
+    end
 
     # if params has term key we will put it to search_params
     # with optional renaming of term key.
