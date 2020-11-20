@@ -4,7 +4,7 @@
 # last_name     string
 # deleted_at    date
 class Author < ApplicationRecord
-  has_many :posts
+  has_many :articles
 
   module CONST
     AUTHOR_TYPE_ID_PERSONAL = 1
@@ -31,6 +31,10 @@ class Author < ApplicationRecord
 
   def display_ajax
     id.to_s + ' ' + name.to_s + 'DELETED'
+  end
+
+  def display_any_tag_name
+    articles.take.tags.take.name.to_s
   end
 
   scope :personal, -> { where(type_id: CONST::AUTHOR_TYPE_ID_PERSONAL) }

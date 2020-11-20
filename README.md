@@ -99,6 +99,14 @@ example below to enable this feature
 active_admin_search! highlight: :term
 ```
 
+##### N+1 problem
+
+To solve N+1 problem you can use special setting named **includes**
+example for Article:
+```ruby
+active_admin_search! includes: [:category, :tag]
+```
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.

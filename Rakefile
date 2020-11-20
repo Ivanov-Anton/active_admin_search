@@ -15,7 +15,7 @@ RuboCop::RakeTask.new
 task default: %i[spec]
 
 task :clean do
-  system('rm -rf spec/rails/rails-*')
+  system('rm -rf spec/rails')
 end
 
 task :setup do
