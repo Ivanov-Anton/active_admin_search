@@ -18,25 +18,23 @@ module ActiveAdminSearch
     value_method = opts.fetch(:value_method, :id)
     display_method = opts.fetch(:display_method, :display_name)
     highlight = opts.fetch(:highlight, nil)
-    sub_id = opts.fetch(:sub_id, nil)
     default_scopes = Array.wrap(opts[:default_scope])
     skip_default_scopes = params.delete(:skip_default_scopes) || false
     includes = Array.wrap(opts[:includes])
     limit = opts.fetch(:limit, nil)
-                                 # look at params first then to dsl method implementation
-    additional_fields = params[:additional_fields] || Array.wrap(opts.fetch(:additional_fields, []))
-    data_payload = opts[:data_payload]
-   # by default search_support returns only 500 items.
-   # to override default page size just pass default_per_page to options.
-   # you can also change page size with params[:per_page] query parameter.
-   # with params[:page]=2 you can retrieve next page.
-   # you can return whole collection w/o pagination by providing `skip_pagination: true` option.
+    # look at params first then to dsl method implementation
+    additional_payload = params[:additional_payload] || Array.wrap(opts.fetch(:additional_payload, []))
+    # by default active_admin_search! returns only 500 items.
+    # to override default page size just pass default_per_page to options.
+    # you can also change page size with params[:per_page] query parameter.
+    # with params[:page]=2 you can retrieve next page.
+    # you can return whole collection w/o pagination by providing `skip_pagination: true` option.
     skip_pagination = opts.fetch(:skip_pagination, false)
     default_per_page = opts.fetch(:default_per_page, 500)
     order_clause = opts.fetch(:order_clause, id: :desc)
     # ajaxChosen will send term key
     # which can be renamed with jsonTermKey option
-    # so we can rename it in search_support too.
+    # so we can rename it in active_admin_search too.
     json_term_key = opts.fetch(:json_term_key, :term)
     # optional rename term key before putting in into ransack search
     term_key_rename = opts[:term_key_rename]
@@ -61,16 +59,11 @@ module ActiveAdminSearch
     end
 
     # substitute 'id:' from value for particular key
-    if sub_id.present? && search_params[sub_id].present? && search_params[sub_id].match?(/^id:\d+/)
-      search_params[:id_eq] = search_params.delete(sub_id).sub(/^id:(\d+)/, '\1')
+    if json_term_key.present? && search_params[json_term_key].present? && search_params[json_term_key].match?(/^id:\d+/)
+      search_params[:id_eq] = search_params.delete(json_term_key).sub(/^id:(\d+)/, '\1')
     end
 
-    # highlight value of particular key in response
-    if highlight.present? && search_params[highlight].present?
-      text_caller = proc { |r| view_context.highlight(r.public_send(display_method), search_params[highlight]) }
-    else
-      text_caller = proc { |r| r.public_send(display_method) }
-    end
+    text_caller = ActiveAdminSearch.make_text_caller(highlight, search_params, self, display_method)
 
     # return empty collection if search_params is empty
     if search_params.blank?
@@ -80,7 +73,9 @@ module ActiveAdminSearch
       unless skip_default_scopes
         default_scopes.each { |default_scope| scope = scope.public_send(default_scope) }
       end
-      scope = scope.public_send(search_scope) if search_scope.present?
+
+      scope = scope.public_send(search_scope) if search_scope.present? && !search_scope.include?(',')
+      search_scope.split(',').each { |s| scope = scope.public_send(s) } if search_scope.present? && search_scope.include?(',')
       scope = scope.includes(includes) if includes.any? # apply includes
       scope = scope.order(order_clause) if order_clause.present?
       if limit.present?
@@ -96,13 +91,11 @@ module ActiveAdminSearch
       scope = decorator_class.decorate_collection(scope)
     end
 
-    result = scope.map do |s|
-      extra = data_payload&.call(s)
+    result = scope.map do |record|
       row = {
-          value: s.public_send(value_method),
-          text: text_caller.call(s)
-      }.merge(additional_fields.map { |key| [key, s.public_send(key)] }.to_h)
-      row[:payload] = extra.to_json unless extra.nil?
+          value: record.public_send(value_method),
+          text: text_caller.call(record)
+      }.merge(additional_payload.first.is_a?(Proc) ? additional_payload.first.call(record) : additional_payload.map { |key| [key, record.public_send(key)] }.to_h)
       row
     end
 
@@ -110,4 +103,16 @@ module ActiveAdminSearch
     end
   end
 
+  def make_text_caller(highlight, search_params, context, display_method)
+    # highlight value of particular key in response
+    if highlight.present? && search_params[highlight].present?
+       proc { |r| context.view_context.highlight(r.public_send(display_method), search_params[highlight]) }
+    else
+       proc { |r| r.public_send(display_method) }
+    end
+  end
+
+  module_function :make_text_caller, :active_admin_search!
 end
+
+ActiveAdmin::ResourceDSL.include ActiveAdminSearch

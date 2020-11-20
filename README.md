@@ -26,8 +26,36 @@ Or install it yourself as:
 ##### You can override default search method named "term"
 
 ```ruby
-active_admin_search! json_term_key: :custom_search_key
+ActiveAdmin.register Author do
+  active_admin_search! json_term_key: :custom_search_key
+end
 ```
+
+model definition
+```ruby
+class Author
+  scope :custom_search_key, ->(term) { where('name = ?', term) }
+end
+```
+
+###### And more that you can force rename term key name that is have name `term`
+
+example:
+```ruby
+ActiveAdmin.register Author do
+  active_admin_search! term_key_rename: :custom_term, highlight: :custom_term
+end
+```
+```
+localhost:3000/authors/search?term=text
+```
+model definition
+```ruby
+class Author
+  scope :custom_term, ->(term) { where('name = ?', term) }
+end
+```
+###### using this setting, regardless of which variable is used in the ajax request, the custom_term method will be called anyway
 
 ## Pagination
 ##### You can disable default limit defined in your specific database
@@ -45,14 +73,22 @@ active_admin_search! limit: 1000
 
 By default active_admin_search gem responce your records with two key ``[{ "value":"1", "text":"Ukraine"" }]``
 value we get from record id, and text we get from special models method named: display_name,
-but you can override this behaviours using key `display_method`
+but you can override this behaviours using key `display_method`.
+You can also override the value itself using the `value_method` setting.
+
 example:
 ```ruby
 active_admin_search! display_method: :display_record
 ```  
 ### You can define additional fields as in example below
+supported value: Hash, Array of Hashes, Lambda
 ```ruby
-active_admin_search! additional_fields: [:deleted_at]
+active_admin_search! additional_payload: [:deleted_at, :other_method]
+active_admin_search! additional_payload: :deleted_at
+active_admin_search! additional_payload: ->(record) {{
+                        deleted_date: record.deleted_at,
+                        custom_field_name: record.display_name
+                     }}
 ```
 
 ## Scope
@@ -61,11 +97,19 @@ example:
 ```ruby
 active_admin_search! default_scope: :not_deleted
 ```
+```ruby
+active_admin_search! default_scope: [:not_deleted, :tagged]
+```
 
 then you can override it if needed using url param: `skip_default_scopes`
 example:
 ```
 localhost:3000/posts/search?term=text&skip_default_scopes=true
+```
+more that you can define scope or list of scopes from url using scope variable
+example
+```
+localhost:3000/authors/search?term=string&scope=taged,not_deleted
 ```
 
 ## Search with prefix id:
@@ -89,7 +133,6 @@ then
 ```sql
 SELECT "authors".* FROM "authors" WHERE "authors"."id" = 443
 ```
-###### ☝️ To use this prefix you should define sub_id: :term in your AA page
 
 ##### Highlight search responce
 You can highlight you responce to easy perform search
@@ -98,6 +141,46 @@ example below to enable this feature
 ```ruby
 active_admin_search! highlight: :term
 ```
+
+##### N+1 problem
+
+To solve N+1 problem you can use special setting named **includes**
+example for Article:
+```ruby
+active_admin_search! includes: [:category, :tag]
+```
+
+#### Order
+If you want override default order (id: :desc) you can use setting order_clause like examples below:
+
+```ruby
+active_admin_search! order_clause: :deleted_at
+```
+then
+```sql
+SELECT "authors".* FROM "authors" ORDER BY "authors"."deleted_at" ASC
+```
+----------------------------
+```ruby
+active_admin_search! order_clause: { deleted_at: :desc }
+```
+then
+```sql
+SELECT "authors".* FROM "authors" ORDER BY "authors"."deleted_at" DESC
+```
+
+### If you want search within foreign key see example below
+```ruby
+active_admin_search!
+```
+```
+localhost:3000/article/search?term=text&q[author_id_eq]=1
+```
+then
+```sql
+SELECT "articles".* FROM "articles" WHERE "articles"."author_id" = 1
+```
+###### it is work throught ransackable search
 
 ## Development
 

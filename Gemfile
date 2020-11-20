@@ -9,6 +9,7 @@ gem 'activeadmin', "~> #{ENV['AA'] || '2.8.1'}"
 gem 'rails', "~> #{ENV['RAILS'] || '6.0.0'}"
 gem 'rake', '~> 13.0'
 
+gem 'db-query-matchers'
 gem 'byebug'
 gem 'capybara'
 gem 'capybara-screenshot'

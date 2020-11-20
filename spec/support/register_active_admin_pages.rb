@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-ActiveAdmin.register Post, as: 'Post' do
+ActiveAdmin.register Article, as: 'Post' do
   active_admin_search!
 end
 

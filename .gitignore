@@ -9,6 +9,5 @@
 /bin/bundle
 
 /spec/rails/**/*.*
-
 # rspec failure tracking
 .rspec_status

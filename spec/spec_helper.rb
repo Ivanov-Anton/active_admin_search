@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'bundler'
-require 'active_admin_search'
+
 ENV['RAILS_ENV'] = 'test'
 require 'rails'
 ENV['RAILS'] = Rails.version # 6.0.3.4 by default
@@ -12,6 +12,7 @@ system 'rake setup' unless File.exist?(ENV['RAILS_ROOT'])
 
 require 'rails/all'
 require 'active_admin'
+require 'active_admin_search'
 require 'selenium-webdriver'
 require 'factory_bot_rails'
 require 'database_cleaner'
