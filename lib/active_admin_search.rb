@@ -115,4 +115,4 @@ module ActiveAdminSearch
   module_function :make_text_caller, :active_admin_search!
 end
 
-#ActiveAdmin::ResourceDSL.include ActiveAdminSearch
+# ActiveAdmin::ResourceDSL.include ActiveAdminSearch
