@@ -37,8 +37,6 @@ require 'selenium-webdriver'
 FactoryBot.definition_file_paths << File.expand_path('factories', __dir__)
 FactoryBot.find_definitions
 
-require_relative 'support/register_active_admin_pages'
-
 RSpec.configure do |config|
   config.infer_spec_type_from_file_location!
 
