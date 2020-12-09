@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.com/Ivanov-Anton/active_admin_search.svg?branch=master)](https://travis-ci.com/Ivanov-Anton/active_admin_search)
+[![Build Status](https://travis-ci.com/Ivanov-Anton/active_admin_search.svg?branch=master)](https://travis-ci.com/Ivanov-Anton/active_admin_search) [![Coverage Status](https://coveralls.io/repos/github/Ivanov-Anton/active_admin_search/badge.svg?branch=master)](https://coveralls.io/github/Ivanov-Anton/active_admin_search?branch=master)
 ## Installation
 
 Add this line to your application's Gemfile:

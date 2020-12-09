@@ -3,6 +3,10 @@
 require 'bundler'
 
 ENV['RAILS_ENV'] = 'test'
+if ENV['CI']
+  require 'coveralls'
+  Coveralls.wear!
+end
 require 'rails'
 ENV['RAILS'] = Rails.version # 6.0.3.4 by default
 

@@ -25,3 +25,4 @@ gem 'sassc-rails'
 gem 'selenium-webdriver'
 gem 'sqlite3'
 gem 'webdrivers', '~> 4.0'
+gem 'coveralls', require: false
