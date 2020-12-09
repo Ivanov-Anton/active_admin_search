@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'active_admin_search/version'
+require 'active_admin'
 
 # nodoc
 module ActiveAdminSearch
@@ -115,4 +116,4 @@ module ActiveAdminSearch
   module_function :make_text_caller, :active_admin_search!
 end
 
-# ActiveAdmin::ResourceDSL.include ActiveAdminSearch
+ ActiveAdmin::ResourceDSL.include ActiveAdminSearch
