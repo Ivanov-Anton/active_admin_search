@@ -13,7 +13,6 @@ gem 'db-query-matchers'
 gem 'byebug'
 gem 'capybara'
 gem 'capybara-screenshot'
-gem 'capybara_active_admin', github: 'activeadmin-plugins/capybara_active_admin', require: false
 gem 'cuprite'
 gem 'database_cleaner'
 gem 'factory_bot'
