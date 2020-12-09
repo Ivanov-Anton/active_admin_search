@@ -18,14 +18,12 @@ require 'factory_bot_rails'
 require 'database_cleaner'
 
 # TODO use dynamic method to require all support files
-require 'support/capybara'
+require_relative 'support/capybara'
 require 'support/response_json_rspec_helpers'
 
 ActiveAdmin.application.load_paths = [ENV['RAILS_ROOT'] + '/app/admin']
 
-require 'rails/rails-6.0.3.4/config/environment'
-
-# require ENV['RAILS_ROOT'] + '/config/environment.rb'
+require "rails/rails-#{ENV['RAILS']}/config/environment"
 
 ActiveAdmin.application.authentication_method = false
 ActiveAdmin.application.current_user_method = false
@@ -39,7 +37,7 @@ require 'selenium-webdriver'
 FactoryBot.definition_file_paths << File.expand_path('factories', __dir__)
 FactoryBot.find_definitions
 
-require 'support/register_active_admin_pages'
+require_relative 'support/register_active_admin_pages'
 
 RSpec.configure do |config|
   config.infer_spec_type_from_file_location!
