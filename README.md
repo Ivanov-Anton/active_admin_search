@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/Ivanov-Anton/active_admin_search.svg?branch=master)](https://travis-ci.org/Ivanov-Anton/active_admin_search)
+[![Build Status](https://travis-ci.com/Ivanov-Anton/active_admin_search.svg?branch=master)](https://travis-ci.com/Ivanov-Anton/active_admin_search)
 ## Installation
 
 Add this line to your application's Gemfile:
