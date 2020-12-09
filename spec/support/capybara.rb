@@ -3,7 +3,6 @@
 require 'capybara/rspec'
 require 'capybara-screenshot/rspec'
 require 'capybara/cuprite'
-require 'capybara/active_admin/rspec'
 
 chrome_log = ENV['CHROME_LOG_FILE'] ? File.open(ENV['CHROME_LOG_FILE'], 'w') : nil
 
