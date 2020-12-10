@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # This gem is unnecessary on Unix-based systems in general
-gsub_file "Gemfile", /gem 'tzinfo-data.*/, ''
+gsub_file "Gemfile", /gem 'tzinfo-data.*/, 'gem "draper"'
 
 generate :model, 'Author name:string last_name:string deleted_at:date type_id:integer timestamps'
 generate :model, 'Article title:string body:text author_id:integer published:boolean visible:boolean'
@@ -109,11 +109,24 @@ $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 
 generate :'active_admin:install --skip-users'
 generate :'formtastic:install'
+generate :'draper:install'
+generate :'decorator Author'
+
+remove_dir 'spec'
 
 create_file 'app/admin/authors.rb' do <<-RUBY
   ActiveAdmin.register Author do
+    decorate_with AuthorDecorator
     active_admin_search!
   end
+RUBY
+end
+
+insert_into_file 'app/decorators/application_decorator.rb', after: "ApplicationDecorator < Draper::Decorator\n" do <<-RUBY
+  def show_decorated_id
+    'decorated id'
+  end
+
 RUBY
 end
 
