@@ -4,8 +4,9 @@ require 'active_admin_search/version'
 require 'active_admin'
 
 # nodoc
-module ActiveAdminSearch
+module ActiveAdminSearch # rubocop:disable Metrics/ModuleLength
   class Error < StandardError; end
+
   # get root
   def self.root
     File.dirname __dir__
@@ -13,10 +14,10 @@ module ActiveAdminSearch
 
   # The main method that should be used in your registered page
   def active_admin_search!(opts = {})
+    # rubocop:disable Lint/NestedMethodDefinition
     controller do
-      def clean_search_params(search_params, json_term_key)
-        search_params = params.fetch(:q) { params.except(:controller, :action, json_term_key) }.dup
-        search_params.delete_if do |_, v| # like ransack does
+      def clean_search_params(term_key)
+        params.fetch(:q) { params.except(:controller, :action, term_key) }.dup.delete_if do |_, v| # like ransack does
           [*v].all? do |i|
             i.blank? && i != false
           end
@@ -24,14 +25,12 @@ module ActiveAdminSearch
       end
 
       def term_key_rename(search_params, term_key_rename, json_term_key)
-        if params[json_term_key]
-          search_params[term_key_rename || json_term_key] = params[json_term_key]
-        end
+        search_params[term_key_rename || json_term_key] = params[json_term_key] if params[json_term_key]
         search_params
       end
 
-      def search_by_id?(search_params, json_term_key)
-        json_term_key.present? && search_params[json_term_key].present? && search_params[json_term_key].match?(/^id:\d+/)
+      def search_by_id?(search_params, term_key)
+        term_key.present? && search_params[term_key].present? && search_params[term_key].match?(/^id:\d+/)
       end
 
       def replace_term_key(search_params, json_term_key)
@@ -54,18 +53,22 @@ module ActiveAdminSearch
 
       def apply_default_scope(scope, default_scopes)
         default_scopes.each { |default_scope| scope = scope.public_send(default_scope) }
-        return scope
+        scope
       end
 
       def apply_search_scope(scope, search_scope)
         scope = scope.public_send(search_scope) if search_scope.present? && !search_scope.include?(',')
-        search_scope.split(',').each { |s| scope = scope.public_send(s) } if search_scope.present? && search_scope.include?(',')
-        return scope
+        if search_scope.present? && search_scope.include?(',')
+          search_scope.split(',').each do |s|
+            scope = scope.public_send(s)
+          end
+        end
+        scope
       end
 
       def apply_preload(scope, includes)
         scope = scope.includes(includes) if includes.any?
-        return scope
+        scope
       end
 
       def apply_order(scope, order_clause)
@@ -78,7 +81,7 @@ module ActiveAdminSearch
         elsif !skip_pagination
           scope = scope.page(page_number).per(page_size)
         end
-        return scope
+        scope
       end
 
       def apply_decoration_collection(scope)
@@ -90,15 +93,23 @@ module ActiveAdminSearch
           row = {
             value: record.public_send(value_method),
             text: text_caller.call(record)
-          }.merge(additional_payload.first.is_a?(Proc) ? additional_payload.first.call(record) : additional_payload.map { |key| [key, record.public_send(key)] }.to_h)
+          }.merge(if additional_payload.first.is_a?(Proc)
+                    additional_payload.first.call(record)
+                  else
+                    additional_payload.map do |key|
+                      [key,
+                       record.public_send(key)]
+                    end.to_h
+                  end)
           row
         end
       end
     end
+    # rubocop:enable Lint/NestedMethodDefinition
 
     # we can't split this block into smaller chunks
     # so we just disable Metrics/BlockLength cop for it.
-    collection_action :search do # rubocop:disable Metrics/BlockLength
+    collection_action :search do
       value_method = opts.fetch(:value_method, :id)
       display_method = opts.fetch(:display_method, :display_name)
       highlight = opts.fetch(:highlight, nil)
@@ -127,7 +138,7 @@ module ActiveAdminSearch
       page_number = params[:page] || 1
       page_size = params[:per_page] || default_per_page
 
-      search_params = clean_search_params(search_params, term_key_rename)
+      search_params = clean_search_params(term_key_rename)
       search_params = term_key_rename(search_params, term_key_rename, json_term_key)
       search_params = replace_term_key(search_params, json_term_key) if search_by_id?(search_params, json_term_key)
       text_caller = build_text_payload(search_params, highlight, display_method)
