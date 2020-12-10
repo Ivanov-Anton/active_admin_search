@@ -17,7 +17,7 @@ RSpec.describe Admin::AuthorsController do
       expect(response_json.size).to eq 1
       expect(response_json).to match_array hash_including(
          value: record.id,
-         text: "1 <mark>Author</mark>"
+         text: "#{record.id} <mark>Author</mark>"
       )
     end
   end
@@ -30,7 +30,7 @@ RSpec.describe Admin::AuthorsController do
       expect(response_json.size).to eq 1
       expect(response_json).to match_array hash_including(
          value: record.id,
-         text: "1 Au<mark>thor</mark>"
+         text: "#{record.id} Au<mark>thor</mark>"
       )
     end
   end

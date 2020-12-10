@@ -19,7 +19,6 @@ require 'active_admin'
 require 'active_admin_search'
 require 'selenium-webdriver'
 require 'factory_bot_rails'
-require 'database_cleaner'
 
 # TODO use dynamic method to require all support files
 require_relative 'support/capybara'
@@ -43,6 +42,7 @@ FactoryBot.find_definitions
 
 RSpec.configure do |config|
   config.infer_spec_type_from_file_location!
+  config.use_transactional_fixtures = true
 
   config.include FactoryBot::Syntax::Methods
   config.include ResponseJsonRspecHelpers, type: :controller
@@ -56,17 +56,5 @@ RSpec.configure do |config|
 
   config.expect_with :rspec do |c|
     c.syntax = :expect
-  end
-
-  config.before(:suite) do
-    DatabaseCleaner.strategy = :truncation
-    DatabaseCleaner.clean_with(:truncation)
-  end
-  config.before(:each) do
-    DatabaseCleaner.strategy = :truncation
-    DatabaseCleaner.start
-  end
-  config.after(:each) do
-    DatabaseCleaner.clean
   end
 end
