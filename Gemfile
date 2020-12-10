@@ -16,6 +16,7 @@ gem 'coveralls', require: false
 gem 'cuprite'
 gem 'database_cleaner'
 gem 'db-query-matchers'
+gem 'draper'
 gem 'factory_bot'
 gem 'factory_bot_rails'
 gem 'ferrum'
