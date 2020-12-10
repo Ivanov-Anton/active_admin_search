@@ -14,7 +14,6 @@ gem 'capybara'
 gem 'capybara-screenshot'
 gem 'coveralls', require: false
 gem 'cuprite'
-gem 'database_cleaner'
 gem 'db-query-matchers'
 gem 'draper'
 gem 'factory_bot'
