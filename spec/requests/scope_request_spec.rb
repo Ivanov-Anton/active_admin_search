@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 RSpec.describe Admin::AuthorsController do
-  subject { get "/admin/authors/search?term=" }
+  subject { get "/admin/authors/search?term=A" }
   let!(:record) { FactoryBot.create(:author, :personal) }
   let!(:record_other) { FactoryBot.create(:author, :business) }
 
@@ -24,7 +24,7 @@ RSpec.describe Admin::AuthorsController do
         ActiveAdmin.register Author do; active_admin_search! default_scope: :personal end
         Rails.application.reload_routes!
       end
-      subject { get "/admin/authors/search?term=&skip_default_scopes=true" }
+      subject { get "/admin/authors/search?term=A&skip_default_scopes=true" }
 
       it 'should have all records' do
         subject
@@ -38,7 +38,7 @@ RSpec.describe Admin::AuthorsController do
         ActiveAdmin.register Author do; active_admin_search! default_scope: [:personal, :not_delete] end
         Rails.application.reload_routes!
       end
-      subject { get '/admin/authors/search?term=' }
+      subject { get '/admin/authors/search?term=A' }
 
       it 'should have all records' do
         subject
@@ -49,7 +49,7 @@ RSpec.describe Admin::AuthorsController do
 
   describe 'setting named: scope which pass in url params' do
     context 'when pass scope: personal' do
-      subject { get "/admin/authors/search?term=&scope=personal" }
+      subject { get "/admin/authors/search?term=A&scope=personal" }
       before do
         ActiveAdmin.register Author do; active_admin_search! end
         Rails.application.reload_routes!
@@ -71,7 +71,7 @@ RSpec.describe Admin::AuthorsController do
   describe 'setting named: scope which pass in url params' do
     context 'when pass couple scopes separated coma' do
       let!(:record_deleted) { FactoryBot.create(:author, :personal, :deleted) }
-      subject { get "/admin/authors/search?term=&scope=personal,not_delete" }
+      subject { get "/admin/authors/search?term=A&scope=personal,not_delete" }
       before do
         ActiveAdmin.register Author do; active_admin_search! end
         Rails.application.reload_routes!

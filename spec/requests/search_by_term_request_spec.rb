@@ -13,11 +13,11 @@ RSpec.describe Admin::AuthorsController do
   let!(:record_another) { FactoryBot.create(:author, name: 'RSpAnotherName', last_name: 'framework') }
 
   context 'search with empty term' do
-    let(:term) { nil }
+    let(:term) { 'RSp' }
 
     it 'should find all records' do
       subject
-      expect(request.params).to match hash_including term: '', action: 'search'
+      expect(request.params).to match hash_including term: term, action: 'search'
       expect(response_json.size).to eq Author.all.count
     end
   end

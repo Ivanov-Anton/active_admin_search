@@ -8,6 +8,8 @@ generate :model, 'Article title:string body:text author_id:integer published:boo
 generate :model, 'Tag name:string visible:boolean article_id:integer'
 generate :model, 'ModelWithoutTermScope name:string text:string body:string'
 
+remove_dir 'spec'
+
 # Filling model files
 insert_into_file 'app/models/author.rb', after: "class Author < ApplicationRecord\n" do <<-RUBY
   has_many :articles
@@ -72,6 +74,10 @@ insert_into_file 'app/models/article.rb', after: "class Article < ApplicationRec
 
   scope :published, -> { where(published: true) }
   scope :visible, -> { where(visible: true) }
+
+  scope :term, ->(value) do
+    where('title ILIKE ?', value)
+  end
 RUBY
 end
 insert_into_file 'app/models/tag.rb', after: "class Tag < ApplicationRecord\n" do <<-RUBY

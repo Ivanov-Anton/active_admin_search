@@ -4,7 +4,7 @@ RSpec.describe Admin::AuthorsController do
   let!(:record) { FactoryBot.create(:author) }
 
   context 'default behavior' do
-    subject { get "/admin/authors/search?term=" }
+    subject { get "/admin/authors/search?term=Author" }
     before do
       ActiveAdmin.register Author do; active_admin_search! end
       Rails.application.reload_routes!
@@ -21,7 +21,7 @@ RSpec.describe Admin::AuthorsController do
   end
 
   context 'when default variable value which forwards id of record is changed to last_name field' do
-    subject { get "/admin/authors/search?term=" }
+    subject { get "/admin/authors/search?term=Author" }
     before do
       ActiveAdmin.register Author do; active_admin_search! value_method: :last_name end
       Rails.application.reload_routes!
