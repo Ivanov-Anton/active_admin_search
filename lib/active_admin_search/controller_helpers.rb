@@ -14,7 +14,8 @@ module ActiveAdminSearch
       default_per_page: 500,
       order_clause: { id: :desc },
       json_term_key: :term,
-      term_key_rename: nil
+      term_key_rename: nil,
+      search_scope: ''
     }.freeze
 
     private
@@ -31,8 +32,9 @@ module ActiveAdminSearch
       options.fetch(key) { DSL_DEFAULT_OPTIONS[key] }
     end
 
-    def clean_search_params(json_term_key)
-      search_params = params.fetch(:q) { params.except(:controller, :action, json_term_key) }.dup
+    def clean_search_params(search_params)
+      search_params.delete(:skip_default_scopes) if search_params.key?(:skip_default_scopes)
+      search_params.delete(:scope) if search_params.key?(:scope)
       search_params.delete_if do |_, v| # like ransack does
         [*v].all? do |i|
           i.blank? && i != false

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 RSpec.describe Admin::AuthorsController do
-  let(:term) { nil }
+  let(:term) { 'Author' }
   let(:record_count) { 2 }
   subject { get "/admin/authors/search?term=#{term || ''}" }
   let!(:records) { FactoryBot.create_list(:author, record_count) }

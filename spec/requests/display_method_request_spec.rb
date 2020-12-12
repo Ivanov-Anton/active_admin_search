@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 RSpec.describe Admin::AuthorsController do
-  let(:term) { nil }
+  let(:term) { 'RSpec' }
   subject { get "/admin/authors/search?term=#{term || ''}" }
   let(:actual_name) { 'RSpec' }
   let(:actual_last_name) { 'framework' }
@@ -15,7 +15,7 @@ RSpec.describe Admin::AuthorsController do
 
     it 'should find record' do
       subject
-      expect(request.params).to match hash_including term: '', action: 'search'
+      expect(request.params).to match hash_including term: term, action: 'search'
       expect(response_json.size).to eq 1
       expect(response_json).to match_array hash_including(value: record.id, text: record.display_name)
     end
@@ -29,7 +29,7 @@ RSpec.describe Admin::AuthorsController do
 
     it 'should have find record' do
       subject
-      expect(request.params).to match hash_including term: '', action: 'search'
+      expect(request.params).to match hash_including term: term, action: 'search'
       expect(response_json.size).to eq 1
       expect(response_json).to match_array hash_including(value: record.id, text: record.display_name_ajax)
     end
