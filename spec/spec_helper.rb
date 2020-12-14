@@ -23,10 +23,18 @@ require 'factory_bot_rails'
 # TODO use dynamic method to require all support files
 require_relative 'support/capybara'
 require 'support/response_json_rspec_helpers'
+require 'support/ext/tag_model_ext'
+require 'support/ext/author_model_ext'
+require 'support/ext/article_model_ext'
 
 ActiveAdmin.application.load_paths = [ENV['RAILS_ROOT'] + '/app/admin']
 
 require "rails/rails-#{ENV['RAILS']}/config/environment"
+
+# Add extentions module for models
+Author.include AuthorModelExt
+Article.include ArticleModelExt
+Tag.include TagModelExt
 
 ActiveAdmin.application.authentication_method = false
 ActiveAdmin.application.current_user_method = false
