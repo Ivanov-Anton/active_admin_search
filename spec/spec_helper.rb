@@ -17,11 +17,9 @@ system 'rake setup' unless File.exist?(ENV['RAILS_ROOT'])
 require 'rails/all'
 require 'active_admin'
 require 'active_admin_search'
-require 'selenium-webdriver'
 require 'factory_bot_rails'
 
 # TODO use dynamic method to require all support files
-require_relative 'support/capybara'
 require 'support/response_json_rspec_helpers'
 require 'support/ext/tag_model_ext'
 require 'support/ext/author_model_ext'
@@ -41,9 +39,6 @@ ActiveAdmin.application.current_user_method = false
 ActiveAdmin::ResourceDSL.include ActiveAdminSearch
 
 require 'rspec/rails'
-require 'capybara/rails'
-require 'capybara/rspec'
-require 'selenium-webdriver'
 
 FactoryBot.definition_file_paths << File.expand_path('factories', __dir__)
 FactoryBot.find_definitions
