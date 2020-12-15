@@ -37,7 +37,7 @@ module ActiveAdminSearch # :nodoc:
         scope = resource_class.none
       else
         scope = end_of_association_chain
-        scope = apply_default_scope(scope, default_scope) unless skip_default_scopes?
+        scope = apply_default_scope(scope, default_scope) if !skip_default_scopes? && default_scope.any?
         scope = apply_search_scope(scope, search_scope)
         scope = scope.includes(includes) if includes.any?
         scope = scope.order(order_clause) if order_clause
