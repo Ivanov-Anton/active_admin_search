@@ -43,6 +43,11 @@ require 'rspec/rails'
 FactoryBot.definition_file_paths << File.expand_path('factories', __dir__)
 FactoryBot.find_definitions
 
+Ransack.configure do |config|
+  # Accept my custom scope values as what they are
+  config.sanitize_custom_scope_booleans = true
+end
+
 RSpec.configure do |config|
   config.infer_spec_type_from_file_location!
   config.use_transactional_fixtures = true
