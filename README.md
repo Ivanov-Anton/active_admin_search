@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.com/Ivanov-Anton/active_admin_search.svg?branch=master)](https://travis-ci.com/Ivanov-Anton/active_admin_search) [![Coverage Status](https://coveralls.io/repos/github/Ivanov-Anton/active_admin_search/badge.svg?branch=master)](https://coveralls.io/github/Ivanov-Anton/active_admin_search?branch=master)
+[![Build Status](https://travis-ci.com/Ivanov-Anton/active_admin_search.svg?branch=master)](https://travis-ci.com/Ivanov-Anton/active_admin_search) [![Coverage Status](https://coveralls.io/repos/github/Ivanov-Anton/active_admin_search/badge.svg?branch=create_modules_with_conresponding_functional)](https://coveralls.io/github/Ivanov-Anton/active_admin_search?branch=create_modules_with_conresponding_functional)
 ## Installation
 
 Add this line to your application's Gemfile:
