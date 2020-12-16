@@ -82,7 +82,7 @@ RSpec.describe Admin::AuthorsController do
   context 'when change default json_term_key to term2' do
     # scope named term2 defined in Author model performs search by name_equals strategy
     before do
-      ActiveAdmin.register ModelWithoutTermScope do; active_admin_search! json_term_key: :term2 end
+      ActiveAdmin.register Author do; active_admin_search! json_term_key: :term2 end
       Rails.application.reload_routes!
     end
 
