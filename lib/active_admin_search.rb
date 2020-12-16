@@ -25,7 +25,7 @@ module ActiveAdminSearch # :nodoc:
       default_scope = Array(dsl_option_for(options, :default_scope))
       includes = Array(dsl_option_for(options, :includes))
       value_method = dsl_option_for(options, :value_method)
-      search_params = clean_search_params(json_term_key)
+      search_params = clean_search_params
       search_params = apply_search_params(search_params, json_term_key)
       search_params = search_by_id(search_params, json_term_key) if search_by_id?(search_params, json_term_key)
 

@@ -31,8 +31,8 @@ module ActiveAdminSearch
       options.fetch(key) { DSL_DEFAULT_OPTIONS[key] }
     end
 
-    def clean_search_params(json_term_key)
-      search_params = params.fetch(:q) { params.except(:controller, :action, json_term_key) }.dup
+    def clean_search_params
+      search_params = params.fetch(:q, {})
       search_params.delete_if do |_, v| # like ransack does
         [*v].all? do |i|
           i.blank? && i != false
