@@ -25,10 +25,8 @@ module ActiveAdminSearch # :nodoc:
       default_scope = Array(dsl_option_for(options, :default_scope))
       includes = Array(dsl_option_for(options, :includes))
       value_method = dsl_option_for(options, :value_method)
-      search_scope = params.fetch(:scope, dsl_option_for(options, :search_scope))
-      search_params = params.fetch(:q) { params.except(:controller, :action, json_term_key) }.dup
+      search_params = clean_search_params(json_term_key)
       search_params = apply_search_params(search_params, json_term_key)
-      search_params = clean_search_params(search_params)
       search_params = search_by_id(search_params, json_term_key) if search_by_id?(search_params, json_term_key)
 
       text_proc = build_text_payload(search_params, highlight, display_method)
@@ -38,7 +36,7 @@ module ActiveAdminSearch # :nodoc:
       else
         scope = end_of_association_chain
         scope = apply_default_scope(scope, default_scope) if !skip_default_scopes? && default_scope.any?
-        scope = apply_search_scope(scope, search_scope)
+        scope = apply_search_scope(scope, params[:scope]) if params[:scope].present?
         scope = scope.includes(includes) if includes.any?
         scope = scope.order(order_clause) if order_clause
         scope = scope.page(page).per(page_size) unless skip_pagination
