@@ -10,7 +10,9 @@ module ActiveAdminSearch # :nodoc:
       include ControllerHelpers
     end
 
-    collection_action :search do
+    endpoint = options.fetch(:endpoint, :search)
+
+    collection_action endpoint do
       check_dsl_options!(options)
 
       additional_payload = params[:additional_payload] || Array.wrap(dsl_option_for(options, :additional_payload))
