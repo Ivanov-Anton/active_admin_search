@@ -28,25 +28,6 @@ scope :custom_search_key, ->(term) { where('name = ?', term) }
 end
 ```
 
-###### And more that you can force rename term key that is having name `term`
-
-example:
-```ruby
-ActiveAdmin.register Author do
-active_admin_search! term_key_rename: :custom_term, highlight: :custom_term
-end
-```
-```
-localhost:3000/authors/search?term=text
-```
-model definition
-```ruby
-class Author
-scope :custom_term, ->(term) { where('name = ?', term) }
-end
-```
-###### using this setting, regardless of which variable is used in the ajax request, the custom_term method will be called anyway
-
 ## Pagination
 ##### You can disable default limit defined in your specific database
 ```ruby

@@ -14,7 +14,7 @@ module ActiveAdminSearch # :nodoc:
       check_dsl_options!(options)
 
       additional_payload = params[:additional_payload] || Array.wrap(dsl_option_for(options, :additional_payload))
-      json_term_key = dsl_option_for(options, :term_key_rename) || dsl_option_for(options, :json_term_key)
+      json_term_key = dsl_option_for(options, :json_term_key)
       page = params.fetch(:page, 1)
       page_size = params.fetch(:per_page) { dsl_option_for(options, :default_per_page) }
       order_clause = dsl_option_for(options, :order_clause)
