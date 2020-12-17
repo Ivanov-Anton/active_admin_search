@@ -13,7 +13,8 @@ module ActiveAdminSearch
       skip_pagination: false,
       default_per_page: 500,
       order_clause: { id: :desc },
-      json_term_key: :term
+      json_term_key: :term,
+      endpoint: :search
     }.freeze
 
     private
