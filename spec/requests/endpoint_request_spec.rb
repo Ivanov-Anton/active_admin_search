@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe ApplicationController do
+RSpec.describe 'DSL option :endpoint' do
   let!(:record) { FactoryBot.create(:author) }
   before do
     ActiveAdmin.register Author do; active_admin_search!; active_admin_search! endpoint: :search_name end

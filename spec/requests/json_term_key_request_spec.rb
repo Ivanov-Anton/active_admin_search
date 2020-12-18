@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe ApplicationController do
+RSpec.describe 'DSL option :json_term_key' do
   let(:json_term_key) { :term }
   let(:term_value) { nil }
   subject { get "/admin/authors/search?#{json_term_key}=#{term_value || ''}" }

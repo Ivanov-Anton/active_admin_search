@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe ApplicationController do
+RSpec.describe 'DSL option :order_clause' do
   subject { get "/admin/authors/search?term=Author" }
   let!(:record_first) { FactoryBot.create(:author, :deleted, deleted_at: 1.hour.ago.utc) }
   let!(:record_second) { FactoryBot.create(:author, :deleted, deleted_at: 1.day.ago.utc) }

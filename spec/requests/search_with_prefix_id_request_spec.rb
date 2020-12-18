@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe ApplicationController do
+RSpec.describe 'Search by prefix id:' do
   subject { get "/admin/authors/search?term=#{term_value}" }
   let!(:records) { FactoryBot.create_list(:author, 10) }
   let!(:record) { FactoryBot.create(:author) }

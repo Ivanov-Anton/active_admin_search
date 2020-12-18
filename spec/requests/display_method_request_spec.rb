@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe ApplicationController do
+RSpec.describe 'DSL option :display_method' do
   let(:term) { 'RSpec' }
   subject { get "/admin/authors/search?term=#{term || ''}" }
   let(:actual_name) { 'RSpec' }

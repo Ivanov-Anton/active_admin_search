@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe ApplicationController do
+RSpec.describe 'Dependent search' do
   let!(:author) { FactoryBot.create(:author) }
   let!(:target_article) { FactoryBot.create(:article, author: author) }
   let!(:target_article_second) { FactoryBot.create(:article, author: author) }

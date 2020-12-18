@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe ApplicationController do
+RSpec.describe 'DSL option :value_method' do
   let!(:record) { FactoryBot.create(:author) }
 
   context 'default behavior' do

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe ApplicationController do
+RSpec.describe 'DSL option :default_scope and request option :skip_default_scopes' do
   subject { get "/admin/authors/search?term=A" }
   let!(:record) { FactoryBot.create(:author, :personal) }
   let!(:record_other) { FactoryBot.create(:author, :business) }

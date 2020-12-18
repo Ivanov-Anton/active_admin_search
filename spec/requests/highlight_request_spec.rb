@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe ApplicationController do
+RSpec.describe 'DSL option :highlight' do
   let(:term_value) { nil }
   subject { get "/admin/authors/search?term=#{term_value || ''}" }
   let!(:record) { FactoryBot.create(:author, name: 'Author') }
