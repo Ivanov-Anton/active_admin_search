@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
-RSpec.describe Admin::AuthorsController do
+RSpec.describe ApplicationController do
   let!(:deleted_record) { FactoryBot.create(:author, :personal, :deleted) }
 
   describe 'setting named: additional_payload' do
     context 'defined one field as array in AA page' do
-      subject { get '/admin/authors/search?term=Author' }
+      subject { get '/admin/additional_payloads/search?term=Author' }
       before do
-        ActiveAdmin.register Author do; active_admin_search! additional_payload: [:deleted_at], default_scope: :deleted  end
+        ActiveAdmin.register Author, as: 'additional_payload' do; active_admin_search! additional_payload: [:deleted_at], default_scope: :deleted  end
         Rails.application.reload_routes!
       end
 
@@ -23,9 +23,9 @@ RSpec.describe Admin::AuthorsController do
     end
 
     context 'when defined a couple payload as array in AA page' do
-      subject { get '/admin/authors/search?term=Author' }
+      subject { get '/admin/additional_payloads/search?term=Author' }
       before do
-        ActiveAdmin.register Author do; active_admin_search! additional_payload: [:deleted_at, :last_name], default_scope: :deleted  end
+        ActiveAdmin.register Author, as: 'additional_payload' do; active_admin_search! additional_payload: [:deleted_at, :last_name], default_scope: :deleted  end
         Rails.application.reload_routes!
       end
 
@@ -42,9 +42,9 @@ RSpec.describe Admin::AuthorsController do
     end
 
     context 'when defined as hash in AA page' do
-      subject { get '/admin/authors/search?term=Author' }
+      subject { get '/admin/additional_payloads/search?term=Author' }
       before do
-        ActiveAdmin.register Author do; active_admin_search! additional_payload: :deleted_at, default_scope: :deleted  end
+        ActiveAdmin.register Author, as: 'additional_payload' do; active_admin_search! additional_payload: :deleted_at, default_scope: :deleted  end
         Rails.application.reload_routes!
       end
 
@@ -60,9 +60,9 @@ RSpec.describe Admin::AuthorsController do
     end
 
     context 'when defined method instead field in AA page' do
-      subject { get '/admin/authors/search?term=Author' }
+      subject { get '/admin/additional_payloads/search?term=Author' }
       before do
-        ActiveAdmin.register Author do; active_admin_search! additional_payload: :display_name, default_scope: :deleted  end
+        ActiveAdmin.register Author, as: 'additional_payload' do; active_admin_search! additional_payload: :display_name, default_scope: :deleted  end
         Rails.application.reload_routes!
       end
 
@@ -78,9 +78,9 @@ RSpec.describe Admin::AuthorsController do
     end
 
     context 'when defined additional field that not present in model' do
-      subject { get '/admin/authors/search?term=Author' }
+      subject { get '/admin/additional_payloads/search?term=Author' }
       before do
-        ActiveAdmin.register Author do; active_admin_search! additional_payload: :not_present_in_model, default_scope: :deleted  end
+        ActiveAdmin.register Author, as: 'additional_payload' do; active_admin_search! additional_payload: :not_present_in_model, default_scope: :deleted  end
         Rails.application.reload_routes!
       end
 
@@ -90,9 +90,9 @@ RSpec.describe Admin::AuthorsController do
     end
 
     context 'when defined additional payload as lambda' do
-      subject { get '/admin/authors/search?term=Author' }
+      subject { get '/admin/additional_payloads/search?term=Author' }
       before do
-        ActiveAdmin.register Author do; active_admin_search! additional_payload: ->(record) { { custom_field_name: record.display_name, id_field: record.id } }, default_scope: :deleted  end
+        ActiveAdmin.register Author, as: 'additional_payload' do; active_admin_search! additional_payload: ->(record) { { custom_field_name: record.display_name, id_field: record.id } }, default_scope: :deleted  end
         Rails.application.reload_routes!
       end
 

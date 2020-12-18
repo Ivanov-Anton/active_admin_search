@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe Admin::AuthorsController do
+RSpec.describe ApplicationController do
   let!(:record) { FactoryBot.create(:author) }
 
   context 'default behavior' do

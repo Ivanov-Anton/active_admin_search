@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe Admin::AuthorsController do
+RSpec.describe ApplicationController do
   subject { get "/admin/authors/search?term=A" }
   let!(:record) { FactoryBot.create(:author, :personal) }
   let!(:other_record) { FactoryBot.create(:author, :business) }

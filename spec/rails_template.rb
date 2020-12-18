@@ -12,7 +12,7 @@ $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 
 generate :'active_admin:install --skip-users'
 rake 'db:migrate'
-generate :'active_admin:resource Author'
+# generate :'active_admin:resource Author'
 generate :'formtastic:install'
 generate :'draper:install'
 generate :'decorator Author'

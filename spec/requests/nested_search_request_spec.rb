@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe Admin::AuthorsController do
+RSpec.describe ApplicationController do
   let!(:author) { FactoryBot.create(:author) }
   let!(:target_article) { FactoryBot.create(:article, author: author) }
   let!(:target_article_second) { FactoryBot.create(:article, author: author) }

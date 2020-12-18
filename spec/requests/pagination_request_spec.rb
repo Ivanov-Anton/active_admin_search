@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe Admin::AuthorsController do
+RSpec.describe ApplicationController do
   let(:term) { 'Author' }
   let(:record_count) { 2 }
   subject { get "/admin/authors/search?term=#{term || ''}" }

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe Admin::AuthorsController do
+RSpec.describe ApplicationController do
   before do
     ActiveAdmin.register Author do; active_admin_search! end
     Rails.application.reload_routes!
