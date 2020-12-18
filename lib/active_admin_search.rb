@@ -10,7 +10,7 @@ module ActiveAdminSearch # :nodoc:
       include ControllerHelpers
     end
 
-    endpoint = options.fetch(:endpoint, :search)
+    endpoint = options.delete(:endpoint) || :search
 
     collection_action endpoint do
       check_dsl_options!(options)
