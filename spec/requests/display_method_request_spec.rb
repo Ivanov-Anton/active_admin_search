@@ -2,14 +2,14 @@
 
 RSpec.describe 'DSL option :display_method' do
   let(:term) { 'RSpec' }
-  subject { get "/admin/authors/search?term=#{term}" }
+  subject { get "/admin/display_methods/search?term=#{term}" }
   let(:actual_name) { 'RSpec' }
   let(:actual_last_name) { 'framework' }
   let!(:record) { FactoryBot.create(:author, name: actual_name, last_name: actual_last_name) }
 
   context 'search by default display_method' do
     before do
-      ActiveAdmin.register Author do; active_admin_search! end
+      ActiveAdmin.register Author, as: 'display_method' do; active_admin_search! end
       Rails.application.reload_routes!
     end
 
@@ -23,7 +23,7 @@ RSpec.describe 'DSL option :display_method' do
 
   context 'search by customer display_method named: display_name_ajax' do
     before do
-      ActiveAdmin.register Author do; active_admin_search! display_method: :display_name_ajax end
+      ActiveAdmin.register Author, as: 'display_method' do; active_admin_search! display_method: :display_name_ajax end
       Rails.application.reload_routes!
     end
 
@@ -38,7 +38,7 @@ RSpec.describe 'DSL option :display_method' do
   # TODO need to implement raise if not have defined display_method in model
   xcontext 'search by unknown display_method' do
     before do
-      ActiveAdmin.register Author do; active_admin_search! display_method: :display_name_unknown end
+      ActiveAdmin.register Author, as: 'display_method' do; active_admin_search! display_method: :display_name_unknown end
       Rails.application.reload_routes!
     end
 

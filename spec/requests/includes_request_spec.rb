@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 RSpec.describe 'DSL option :includes' do
-  subject { get "/admin/authors/search?term=Author" }
+  subject { get "/admin/includes/search?term=Author" }
   let!(:record) { FactoryBot.create(:author) }
   let!(:article) { FactoryBot.create(:article, author: record) }
   let!(:tag_red) { FactoryBot.create(:tag, article: article, name: 'red') }
@@ -14,7 +14,7 @@ RSpec.describe 'DSL option :includes' do
 
   describe 'default behavior' do
     before do
-      ActiveAdmin.register Author do; active_admin_search! display_method: :display_any_tag_name end
+      ActiveAdmin.register Author, as: 'include' do; active_admin_search! display_method: :display_any_tag_name end
       Rails.application.reload_routes!
     end
 
@@ -29,7 +29,7 @@ RSpec.describe 'DSL option :includes' do
 
   describe 'with includes settings' do
     before do
-      ActiveAdmin.register Author do; active_admin_search! display_method: :display_any_tag_name, includes: [articles: :tags] end
+      ActiveAdmin.register Author, as: 'include' do; active_admin_search! display_method: :display_any_tag_name, includes: [articles: :tags] end
       Rails.application.reload_routes!
     end
 

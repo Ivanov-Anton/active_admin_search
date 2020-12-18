@@ -1,14 +1,14 @@
 # frozen_string_literal: true
 
 RSpec.describe 'DSL option :default_scope and request option :skip_default_scopes' do
-  subject { get "/admin/authors/search?term=A" }
+  subject { get "/admin/default_scopes/search?term=A" }
   let!(:record) { FactoryBot.create(:author, :personal) }
   let!(:record_other) { FactoryBot.create(:author, :business) }
 
   describe 'setting named: default_scope' do
     context 'when defined default_scope: :personal' do
       before do
-        ActiveAdmin.register Author do; active_admin_search! default_scope: :personal end
+        ActiveAdmin.register Author, as: 'default_scope' do; active_admin_search! default_scope: :personal end
         Rails.application.reload_routes!
       end
 
@@ -21,10 +21,10 @@ RSpec.describe 'DSL option :default_scope and request option :skip_default_scope
 
     context 'when defined default_scope: :personal and override then throught url' do
       before do
-        ActiveAdmin.register Author do; active_admin_search! default_scope: :personal end
+        ActiveAdmin.register Author, as: 'default_scope' do; active_admin_search! default_scope: :personal end
         Rails.application.reload_routes!
       end
-      subject { get "/admin/authors/search?term=A&skip_default_scopes=true" }
+      subject { get "/admin/default_scopes/search?term=A&skip_default_scopes=true" }
 
       it 'should have all records' do
         subject
@@ -35,10 +35,10 @@ RSpec.describe 'DSL option :default_scope and request option :skip_default_scope
     context 'when defined default_scope as array' do
       let!(:record_deleted) { FactoryBot.create(:author, :personal, :deleted) }
       before do
-        ActiveAdmin.register Author do; active_admin_search! default_scope: [:personal, :not_delete] end
+        ActiveAdmin.register Author, as: 'default_scope' do; active_admin_search! default_scope: [:personal, :not_delete] end
         Rails.application.reload_routes!
       end
-      subject { get '/admin/authors/search?term=A' }
+      subject { get '/admin/default_scopes/search?term=A' }
 
       it 'should have all records' do
         subject
@@ -49,9 +49,9 @@ RSpec.describe 'DSL option :default_scope and request option :skip_default_scope
 
   describe 'setting named: scope which pass in url params' do
     context 'when pass scope: personal' do
-      subject { get "/admin/authors/search?term=A&scope=personal" }
+      subject { get "/admin/default_scopes/search?term=A&scope=personal" }
       before do
-        ActiveAdmin.register Author do; active_admin_search! end
+        ActiveAdmin.register Author, as: 'default_scope' do; active_admin_search! end
         Rails.application.reload_routes!
       end
 
@@ -71,9 +71,9 @@ RSpec.describe 'DSL option :default_scope and request option :skip_default_scope
   describe 'setting named: scope which pass in url params' do
     context 'when pass couple scopes separated coma' do
       let!(:record_deleted) { FactoryBot.create(:author, :personal, :deleted) }
-      subject { get "/admin/authors/search?term=A&scope=personal,not_delete" }
+      subject { get "/admin/default_scopes/search?term=A&scope=personal,not_delete" }
       before do
-        ActiveAdmin.register Author do; active_admin_search! end
+        ActiveAdmin.register Author, as: 'default_scope' do; active_admin_search! end
         Rails.application.reload_routes!
       end
 

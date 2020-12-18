@@ -3,12 +3,12 @@
 RSpec.describe 'DSL option :json_term_key' do
   let(:json_term_key) { :term }
   let(:term_value) { nil }
-  subject { get "/admin/authors/search?#{json_term_key}=#{term_value}" }
+  subject { get "/admin/json_term_keys/search?#{json_term_key}=#{term_value}" }
   let!(:record) { FactoryBot.create(:author, name: term_value) }
 
   context 'when default behavior' do
     before do
-      ActiveAdmin.register Author do; active_admin_search! end
+      ActiveAdmin.register Author, as: 'json_term_key' do; active_admin_search! end
       Rails.application.reload_routes!
     end
     let(:term_value) { 'default value' }
@@ -28,7 +28,7 @@ RSpec.describe 'DSL option :json_term_key' do
     let(:term_value) { 'default value' }
     let(:json_term_key) { :name }
     before do
-      ActiveAdmin.register Author do; active_admin_search! json_term_key: :name end
+      ActiveAdmin.register Author, as: 'json_term_key' do; active_admin_search! json_term_key: :name end
       Rails.application.reload_routes!
     end
 
@@ -47,7 +47,7 @@ RSpec.describe 'DSL option :json_term_key' do
     let(:term_value) { 'default value' }
     let(:json_term_key) { :another }
     before do
-      ActiveAdmin.register Author do; active_admin_search! json_term_key: :another end
+      ActiveAdmin.register Author, as: 'json_term_key' do; active_admin_search! json_term_key: :another end
       Rails.application.reload_routes!
     end
 
