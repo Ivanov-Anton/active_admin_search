@@ -2,7 +2,7 @@
 
 RSpec.describe 'DSL option :highlight' do
   let(:term_value) { nil }
-  subject { get "/admin/authors/search?term=#{term_value || ''}" }
+  subject { get "/admin/authors/search?term=#{term_value}" }
   let!(:record) { FactoryBot.create(:author, name: 'Author') }
   before do
     ActiveAdmin.register Author do; active_admin_search! highlight: :term  end

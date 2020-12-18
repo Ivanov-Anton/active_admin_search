@@ -3,7 +3,7 @@
 RSpec.describe 'DSL option :json_term_key' do
   let(:json_term_key) { :term }
   let(:term_value) { nil }
-  subject { get "/admin/authors/search?#{json_term_key}=#{term_value || ''}" }
+  subject { get "/admin/authors/search?#{json_term_key}=#{term_value}" }
   let!(:record) { FactoryBot.create(:author, name: term_value) }
 
   context 'when default behavior' do

@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 RSpec.describe 'Search by prefix id:' do
+  let(:term_value) { nil }
   subject { get "/admin/authors/search?term=#{term_value}" }
   let!(:records) { FactoryBot.create_list(:author, 10) }
   let!(:record) { FactoryBot.create(:author) }

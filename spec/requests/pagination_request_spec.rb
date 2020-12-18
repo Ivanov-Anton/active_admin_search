@@ -3,7 +3,7 @@
 RSpec.describe 'DSL option pagination' do
   let(:term) { 'Author' }
   let(:record_count) { 2 }
-  subject { get "/admin/authors/search?term=#{term || ''}" }
+  subject { get "/admin/authors/search?term=#{term}" }
   let!(:records) { FactoryBot.create_list(:author, record_count) }
 
   context 'with limit' do

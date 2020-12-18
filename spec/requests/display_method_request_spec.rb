@@ -2,7 +2,7 @@
 
 RSpec.describe 'DSL option :display_method' do
   let(:term) { 'RSpec' }
-  subject { get "/admin/authors/search?term=#{term || ''}" }
+  subject { get "/admin/authors/search?term=#{term}" }
   let(:actual_name) { 'RSpec' }
   let(:actual_last_name) { 'framework' }
   let!(:record) { FactoryBot.create(:author, name: actual_name, last_name: actual_last_name) }
