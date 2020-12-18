@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'bundler'
+require 'byebug'
 
 ENV['RAILS_ENV'] = 'test'
 if ENV['CI']
