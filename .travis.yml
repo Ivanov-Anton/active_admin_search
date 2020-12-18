@@ -8,8 +8,10 @@ script: bundle exec rake
 
 env:
   matrix:
-    - RAILS=5.2.0 AA=2.0.0
+    - RAILS=5.2.0 AA=2.8.1
     - RAILS=6.0.0 AA=2.8.1
+    - RAILS=6.1.0 AA=2.8.1
+   
 rvm:
   - 2.5
   - 2.7
