@@ -3,7 +3,7 @@ language: ruby
 os: 'linux'
 dist: 'xenial'
 cache: bundler
-before_install: gem install bundler --version 1.17.3
+before_install: gem install bundler --version 2.1.4
 script: bundle exec rake
 
 env:
