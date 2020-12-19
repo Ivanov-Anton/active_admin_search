@@ -1,16 +1,20 @@
 # frozen_string_literal: true
 
-RSpec.describe 'DSL option :endpoint' do
+RSpec.describe 'DSL option :endpoint', type: :request do
   let!(:record) { FactoryBot.create(:author) }
+
   before do
-    ActiveAdmin.register Author, as: 'endpoint' do; active_admin_search!; active_admin_search! endpoint: :search_name end
+    ActiveAdmin.register Author, as: 'endpoint' do
+      active_admin_search!
+      active_admin_search! endpoint: :search_name
+    end
     Rails.application.reload_routes!
   end
 
   describe 'performing by default "search" endpoint' do
     subject { get "/admin/endpoints/search?term=#{record.name}" }
 
-    it 'should have record' do
+    it 'has record' do
       subject
       expect(response_json.size).to eq 1
     end
@@ -19,7 +23,7 @@ RSpec.describe 'DSL option :endpoint' do
   describe 'performing by "search_name" endpoint' do
     subject { get "/admin/endpoints/search_name?term=#{record.name}" }
 
-    it 'should have record' do
+    it 'has record' do
       subject
       expect(response_json.size).to eq 1
     end

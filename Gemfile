@@ -17,5 +17,11 @@ gem 'factory_bot'
 gem 'factory_bot_rails'
 gem 'rspec', '~> 3.0'
 gem 'rspec-rails'
+# Rubocop
 gem 'rubocop', '~> 1.0'
+gem 'rubocop-packaging'
+gem 'rubocop-performance', require: false
+gem 'rubocop-rake', require: false
+gem 'rubocop-require_tools'
+gem 'rubocop-rspec', require: false
 gem 'sqlite3'

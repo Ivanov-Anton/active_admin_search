@@ -1,40 +1,50 @@
 # frozen_string_literal: true
 
-RSpec.describe 'DSL option :includes' do
-  subject { get "/admin/includes/search?term=Author" }
-  let!(:record) { FactoryBot.create(:author) }
-  let!(:article) { FactoryBot.create(:article, author: record) }
-  let!(:tag_red) { FactoryBot.create(:tag, article: article, name: 'red') }
-  let!(:tag_green) { FactoryBot.create(:tag, article: article, name: 'green') }
+RSpec.describe 'DSL option :includes', type: :request do
+  subject { get '/admin/includes/search?term=Author' }
 
-  let!(:second_record) { FactoryBot.create(:author) }
-  let!(:second_article) { FactoryBot.create(:article, author: second_record) }
-  let!(:second_tag_red) { FactoryBot.create(:tag, article: second_article, name: 'red') }
-  let!(:second_tag_green) { FactoryBot.create(:tag, article: second_article, name: 'green') }
+  before do
+    record = FactoryBot.create(:author)
+    article = FactoryBot.create(:article, author: record)
+    FactoryBot.create(:tag, article: article, name: 'red')
+    FactoryBot.create(:tag, article: article, name: 'green')
+    second_record = FactoryBot.create(:author)
+    second_article = FactoryBot.create(:article, author: second_record)
+    FactoryBot.create(:tag, article: second_article, name: 'red')
+    FactoryBot.create(:tag, article: second_article, name: 'green')
+  end
 
-  describe 'default behavior' do
+  describe 'with default behavior' do
     before do
-      ActiveAdmin.register Author, as: 'include' do; active_admin_search! display_method: :display_any_tag_name end
+      ActiveAdmin.register Author, as: 'include' do
+        active_admin_search! display_method: :display_any_tag_name
+      end
       Rails.application.reload_routes!
     end
 
-    it 'should have record' do
-      expect { subject }.to make_database_queries(count: 5)
-      # 1 query to get authors
-      # 2 query to get 2 articles
-      # and finally 2 query to get 2 red tags
+    # 1 query to get authors
+    # 2 query to get 2 articles = 3
+    # and finally 2 query to get 2 red tags = 5
+    it { expect { subject }.to make_database_queries(count: 5) }
+
+    it 'has correct count record' do
+      subject
       expect(response_json.size).to eq 2
     end
   end
 
   describe 'with includes settings' do
     before do
-      ActiveAdmin.register Author, as: 'include' do; active_admin_search! display_method: :display_any_tag_name, includes: [articles: :tags] end
+      ActiveAdmin.register Author, as: 'include' do
+        active_admin_search! display_method: :display_any_tag_name, includes: [articles: :tags]
+      end
       Rails.application.reload_routes!
     end
 
-    it 'should perform less queries' do
-      expect { subject }.to make_database_queries(count: 3)
+    it { expect { subject }.to make_database_queries(count: 3) }
+
+    it 'has correct record count in response' do
+      subject
       expect(response_json.size).to eq 2
     end
   end

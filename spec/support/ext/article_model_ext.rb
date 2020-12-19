@@ -9,14 +9,14 @@ module ArticleModelExt
     has_many :tags, class_name: 'Tag'
 
     def display_name
-      id.to_s + ' ' + title.to_s
+      "#{id} #{title}"
     end
 
     scope :published, -> { where(published: true) }
     scope :visible, -> { where(visible: true) }
 
-    scope :term, ->(value) do
+    scope :term, lambda { |value|
       where('title ILIKE ?', value)
-    end
+    }
   end
 end

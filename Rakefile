@@ -14,10 +14,12 @@ RuboCop::RakeTask.new
 
 task default: %i[spec]
 
+desc 'Remove Dummy Rails application generated after execute test'
 task :clean do
   system('rm -rf spec/rails')
 end
 
+desc 'Setup Dummy Rails application'
 task :setup do
   system('mkdir spec/rails') unless File.exist?('spec/rails')
   rails_new_opts = %w[

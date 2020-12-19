@@ -7,7 +7,7 @@ module TagModelExt
     belongs_to :article, class_name: 'Article'
 
     def display_name
-      id.to_s + ' ' + name.to_s
+      "#{id} #{name}"
     end
 
     scope :visible, -> { where(visible: true) }

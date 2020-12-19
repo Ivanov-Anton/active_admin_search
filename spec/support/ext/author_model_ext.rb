@@ -22,15 +22,15 @@ module AuthorModelExt
     end
 
     def display_name
-      id.to_s + ' ' + name.to_s
+      "#{id} #{name}"
     end
 
     def display_name_ajax
-      id.to_s + ' ' + name.to_s + '_ajax'
+      "#{id} #{name}_ajax"
     end
 
     def display_ajax
-      id.to_s + ' ' + name.to_s + 'DELETED'
+      "#{id} #{name}DELETED"
     end
 
     def display_any_tag_name
@@ -42,13 +42,13 @@ module AuthorModelExt
     scope :deleted, -> { where.not(deleted_at: nil) }
     scope :not_delete, -> { where(deleted_at: nil) }
 
-    scope :term, -> (value) do
+    scope :term, lambda { |value|
       ransack(name_contains: value).result
-    end
+    }
 
-    scope :term2, -> (value) do
+    scope :term2, lambda { |value|
       ransack(name_contains: value).result
-    end
+    }
 
     def self.ransackable_scopes(_auth = nil)
       %w[term term2]

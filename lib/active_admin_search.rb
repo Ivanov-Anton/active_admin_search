@@ -2,7 +2,7 @@
 
 require 'active_admin_search/version'
 require 'active_admin_search/controller_helpers'
-require 'active_admin'
+require 'active_admin/resource_dsl'
 
 module ActiveAdminSearch # :nodoc:
   def active_admin_search!(options = {})

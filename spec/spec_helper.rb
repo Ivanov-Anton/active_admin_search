@@ -9,7 +9,7 @@ if ENV['CI']
   Coveralls.wear!
 end
 require 'rails'
-ENV['RAILS'] = Rails.version # 6.0.3.4 by default
+ENV['RAILS'] = Rails.version
 
 ENV['RAILS_ROOT'] = File.expand_path("../rails/rails-#{ENV['RAILS']}", __FILE__)
 
@@ -20,13 +20,13 @@ require 'active_admin'
 require 'active_admin_search'
 require 'factory_bot_rails'
 
-# TODO use dynamic method to require all support files
+# TODO: use dynamic method to require all support files
 require 'support/response_json_rspec_helpers'
 require 'support/ext/tag_model_ext'
 require 'support/ext/author_model_ext'
 require 'support/ext/article_model_ext'
 
-ActiveAdmin.application.load_paths = [ENV['RAILS_ROOT'] + '/app/admin']
+ActiveAdmin.application.load_paths = ["#{ENV['RAILS_ROOT']}/app/admin"]
 
 require "rails/rails-#{ENV['RAILS']}/config/environment"
 

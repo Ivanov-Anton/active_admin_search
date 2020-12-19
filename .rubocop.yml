@@ -1,33 +1,113 @@
+require:
+  - rubocop-performance
+  - rubocop-rspec
+  - rubocop-rake
+  - rubocop/require_tools
+  - rubocop-packaging
 AllCops:
   TargetRubyVersion: 2.5
-  SuggestExtensions: false
-  NewCops: enable
+  SuggestExtensions:
+    rubocop-rails: false
   Exclude:
-    - 'spec/**/*'
+    - 'spec/rails/**/*'
     - 'bin/**/*'
 
+# Style
 Style/StringLiterals:
   Enabled: true
-
 Style/StringLiteralsInInterpolation:
   Enabled: true
+Style/ArgumentsForwarding:
+  Enabled: true
+Style/CollectionCompact:
+  Enabled: true
+Style/DocumentDynamicEvalDefinition:
+  Enabled: true
+Style/NegatedIfElseCondition:
+  Enabled: true
+Style/NilLambda:
+  Enabled: true
+Style/RedundantArgument:
+  Enabled: true
+Style/SwapValues:
+  Enabled: true
+Style/Documentation:
+  Enabled: true
+Style/FrozenStringLiteralComment:
+  Enabled: true
+
+# Lint
+Lint/DuplicateBranch:
+  Enabled: true
+Lint/DuplicateRegexpCharacterClassElement:
+  Enabled: true
+Lint/EmptyBlock:
+  Enabled: true
+Lint/EmptyClass:
+  Enabled: true
+Lint/NoReturnInBeginEndBlocks:
+  Enabled: true
+Lint/ToEnumArguments:
+  Enabled: true
+Lint/UnexpectedBlockArity:
+  Enabled: true
+Lint/UnmodifiedReduceAccumulator:
+  Enabled: true
+Lint/ConstantDefinitionInBlock:
+  Enabled: false
 
 Layout/LineLength:
   Max: 120
 Metrics/AbcSize:
   Enabled: false
-
 Metrics/CyclomaticComplexity:
   Enabled: false
-
 Metrics/PerceivedComplexity:
   Enabled: false
-
 Metrics/BlockLength:
   Enabled: false
-
 Metrics/MethodLength:
   Enabled: false
 
+# Performance
+Performance/AncestorsInclude:
+  Enabled: true
+Performance/BigDecimalWithNumericArgument:
+  Enabled: true
+Performance/BlockGivenWithExplicitBlock:
+  Enabled: true
+Performance/CollectionLiteralInLoop:
+  Enabled: true
+Performance/ConstantRegexp:
+  Enabled: true
+Performance/MethodObjectAsBlock:
+  Enabled: true
+Performance/RedundantSortBlock:
+  Enabled: true
+Performance/RedundantStringChars:
+  Enabled: true
+Performance/ReverseFirst:
+  Enabled: true
+Performance/SortReverse:
+  Enabled: true
+Performance/Squeeze:
+  Enabled: true
+Performance/StringInclude:
+  Enabled: true
+Performance/Sum:
+  Enabled: true
+
+Require/MissingRequireStatement:
+  Exclude:
+    - '**/spec/**/*.rb'
+    - '**/spec_helper.rb'
+    - 'lib/active_admin_search.rb' #TODO ActiveAdmin::ResourceDSL not found,
+                                   #you're probably missing a require statement
+                                   #or there is a cycle in your dependencies.
 
 
+# Rspec
+RSpec/NamedSubject:
+  Enabled: false
+RSpec/RepeatedExample:
+  Enabled: false

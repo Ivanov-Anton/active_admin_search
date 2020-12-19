@@ -1,39 +1,47 @@
 # frozen_string_literal: true
 
-RSpec.describe 'DSL option :value_method' do
+RSpec.describe 'DSL option :value_method', type: :request do
   let!(:record) { FactoryBot.create(:author) }
 
-  context 'default behavior' do
-    subject { get "/admin/value_methods/search?term=Author" }
+  context 'when default behavior' do
+    subject { get '/admin/value_methods/search?term=Author' }
+
     before do
-      ActiveAdmin.register Author, as: 'value_method' do; active_admin_search! end
+      ActiveAdmin.register Author, as: 'value_method' do
+        active_admin_search!
+      end
       Rails.application.reload_routes!
     end
 
-    it 'should have default fields' do
+    it 'has correct record count' do
       subject
       expect(response_json.size).to eq 1
-      expect(response_json).to match_array hash_including(
-         value: record.id,
-         text: record.display_name,
-      )
+    end
+
+    it 'has default fields in response' do
+      subject
+      expect(response_json).to match_array hash_including(value: record.id, text: record.display_name)
     end
   end
 
   context 'when default variable value which forwards id of record is changed to last_name field' do
-    subject { get "/admin/value_methods/search?term=Author" }
+    subject { get '/admin/value_methods/search?term=Author' }
+
     before do
-      ActiveAdmin.register Author, as: 'value_method' do; active_admin_search! value_method: :last_name end
+      ActiveAdmin.register Author, as: 'value_method' do
+        active_admin_search! value_method: :last_name
+      end
       Rails.application.reload_routes!
     end
 
-    it 'should have default fields' do
+    it 'has correct record count' do
       subject
       expect(response_json.size).to eq 1
-      expect(response_json).to match_array hash_including(
-        value: record.last_name,
-        text: record.display_name,
-      )
+    end
+
+    it 'has default fields' do
+      subject
+      expect(response_json).to match_array hash_including(value: record.last_name, text: record.display_name)
     end
   end
 end
