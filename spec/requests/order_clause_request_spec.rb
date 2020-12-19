@@ -1,14 +1,14 @@
 # frozen_string_literal: true
 
-RSpec.describe Admin::AuthorsController do
-  subject { get "/admin/authors/search?term=Author" }
+RSpec.describe 'DSL option :order_clause' do
+  subject { get "/admin/order_clauses/search?term=Author" }
   let!(:record_first) { FactoryBot.create(:author, :deleted, deleted_at: 1.hour.ago.utc) }
   let!(:record_second) { FactoryBot.create(:author, :deleted, deleted_at: 1.day.ago.utc) }
   let!(:record_last) { FactoryBot.create(:author, :deleted, deleted_at: 1.minute.ago.utc) }
 
   describe 'default behavior is id: :desc' do
     before do
-      ActiveAdmin.register Author do; active_admin_search! end
+      ActiveAdmin.register Author, as: 'order_clause' do; active_admin_search! end
       Rails.application.reload_routes!
     end
 
@@ -23,7 +23,7 @@ RSpec.describe Admin::AuthorsController do
 
   describe 'when use setting order_clause by id asc' do
     before do
-      ActiveAdmin.register Author do; active_admin_search! order_clause: :id end
+      ActiveAdmin.register Author, as: 'order_clause' do; active_admin_search! order_clause: :id end
       Rails.application.reload_routes!
     end
 
@@ -38,7 +38,7 @@ RSpec.describe Admin::AuthorsController do
 
   describe 'when use setting order_clause by id asc' do
     before do
-      ActiveAdmin.register Author do; active_admin_search! order_clause: { id: :asc } end
+      ActiveAdmin.register Author, as: 'order_clause' do; active_admin_search! order_clause: { id: :asc } end
       Rails.application.reload_routes!
     end
 
@@ -53,7 +53,7 @@ RSpec.describe Admin::AuthorsController do
 
   describe 'when use setting order_clause by deleted_at asc' do
     before do
-      ActiveAdmin.register Author do; active_admin_search! order_clause: { deleted_at: :asc } end
+      ActiveAdmin.register Author, as: 'order_clause' do; active_admin_search! order_clause: { deleted_at: :asc } end
       Rails.application.reload_routes!
     end
 
@@ -68,7 +68,7 @@ RSpec.describe Admin::AuthorsController do
 
   describe 'when use setting order_clause by deleted_at desc' do
     before do
-      ActiveAdmin.register Author do; active_admin_search! order_clause: { deleted_at: :desc } end
+      ActiveAdmin.register Author, as: 'order_clause' do; active_admin_search! order_clause: { deleted_at: :desc } end
       Rails.application.reload_routes!
     end
 

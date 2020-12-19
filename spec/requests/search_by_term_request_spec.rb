@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
-RSpec.describe Admin::AuthorsController do
+RSpec.describe 'Detailed search by term' do
   before do
-    ActiveAdmin.register Author do; active_admin_search! end
+    ActiveAdmin.register Author, as: 'term' do; active_admin_search! end
     Rails.application.reload_routes!
   end
   let(:term) { nil }
-  subject { get "/admin/authors/search?term=#{term || ''}" }
+  subject { get "/admin/terms/search?term=#{term}" }
   let(:actual_name) { 'RSpec' }
   let(:actual_last_name) { 'framework' }
   let!(:record) { FactoryBot.create(:author, name: actual_name, last_name: actual_last_name) }
@@ -66,11 +66,11 @@ RSpec.describe Admin::AuthorsController do
 
   context 'search by term scope but model not have that scope' do
     before do
-      ActiveAdmin.register ModelWithoutTermScope do; active_admin_search! end
+      ActiveAdmin.register ModelWithoutTermScope, as: 'terms' do; active_admin_search! end
       Rails.application.reload_routes!
     end
 
-    subject { get "/admin/model_without_term_scopes/search?term=#{term}" }
+    subject { get "/admin/terms/search?term=#{term}" }
     let(:term) { 'RSpec' }
 
     it 'should have empty array' do
@@ -82,12 +82,12 @@ RSpec.describe Admin::AuthorsController do
   context 'when change default json_term_key to term2' do
     # scope named term2 defined in Author model performs search by name_equals strategy
     before do
-      ActiveAdmin.register Author do; active_admin_search! json_term_key: :term2 end
+      ActiveAdmin.register Author, as: 'term' do; active_admin_search! json_term_key: :term2 end
       Rails.application.reload_routes!
     end
 
     let(:term) { 'RSpec' }
-    subject { get "/admin/authors/search?term2=#{term}" }
+    subject { get "/admin/terms/search?term2=#{term}" }
 
     it 'should have empty array' do
       subject

@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
-RSpec.describe Admin::AuthorsController do
-  subject { get "/admin/authors/search?term=A" }
+RSpec.describe 'Test decorator' do
+  subject { get "/admin/decorators/search?term=A" }
   let!(:record) { FactoryBot.create(:author, :personal) }
   let!(:other_record) { FactoryBot.create(:author, :business) }
 
   describe 'when defined method: decorate_with' do
     before do
-      ActiveAdmin.register Author do
+      ActiveAdmin.register Author, as: 'decorator' do
         decorate_with AuthorDecorator
         active_admin_search! additional_payload: :show_decorated_id
       end
