@@ -3,6 +3,14 @@
 # This gem is unnecessary on Unix-based systems in general
 gsub_file "Gemfile", /gem 'tzinfo-data.*/, 'gem "draper"'
 
+insert_into_file 'config/application.rb', after: "config.generators.system_tests = nil\n" do <<-RUBY
+    
+    config.generators do |g|
+      g.test_framework nil
+    end
+RUBY
+end
+
 generate :model, 'Author name:string last_name:string deleted_at:date type_id:integer timestamps'
 generate :model, 'Article title:string body:text author_id:integer published:boolean visible:boolean'
 generate :model, 'Tag name:string visible:boolean article_id:integer'
@@ -15,8 +23,6 @@ rake 'db:migrate'
 generate :'formtastic:install'
 generate :'draper:install'
 generate :'decorator Author'
-
-remove_dir 'spec'
 
 insert_into_file 'app/decorators/application_decorator.rb', after: "ApplicationDecorator < Draper::Decorator\n" do <<-RUBY
   def show_decorated_id

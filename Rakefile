@@ -28,8 +28,10 @@ task :setup do
     --skip-git
     --skip-test
     --skip-system-test
-    -m
-    spec/rails_template.rb
+    --skip-keeps
+    --skip-javascript
+    --skip-test-unit
+    --template=spec/rails_template.rb
   ]
 
   system "bundle exec rails new spec/rails/rails-#{Rails::VERSION::STRING} #{rails_new_opts.join(' ')}"
