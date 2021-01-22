@@ -35,6 +35,20 @@ RSpec.describe 'DSL option :display_method' do
     end
   end
 
+  context 'when set display_method from get parameter' do
+    before do
+      ActiveAdmin.register Author, as: 'display_method' do; active_admin_search! end
+      Rails.application.reload_routes!
+    end
+
+    subject { get "/admin/display_methods/search?term=#{term}&display_method=display_name_ajax" }
+
+    it 'should have additional display method' do
+      subject
+      expect(response_json).to match_array hash_including(value: record.id, text: record.display_name_ajax)
+    end
+  end
+
   # TODO need to implement raise if not have defined display_method in model
   xcontext 'search by unknown display_method' do
     before do
