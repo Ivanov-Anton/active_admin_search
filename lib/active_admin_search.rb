@@ -23,7 +23,7 @@ module ActiveAdminSearch # :nodoc:
       page_limit = dsl_option_for(options, :limit)
       skip_pagination = dsl_option_for(options, :skip_pagination)
       highlight = dsl_option_for(options, :highlight)
-      display_method = dsl_option_for(options, :display_method)
+      display_method = params.fetch(:display_method) { dsl_option_for(options, :display_method) }
       default_scope = Array(dsl_option_for(options, :default_scope))
       includes = Array(dsl_option_for(options, :includes))
       value_method = dsl_option_for(options, :value_method)
