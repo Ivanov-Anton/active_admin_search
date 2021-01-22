@@ -21,7 +21,7 @@ RSpec.describe 'DSL option :display_method' do
     end
   end
 
-  context 'search by customer display_method named: display_name_ajax' do
+  context 'search by custom display method named: display_name_ajax' do
     before do
       ActiveAdmin.register Author, as: 'display_method' do; active_admin_search! display_method: :display_name_ajax end
       Rails.application.reload_routes!
